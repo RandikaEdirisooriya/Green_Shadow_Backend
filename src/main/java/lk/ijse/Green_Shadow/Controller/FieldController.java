@@ -64,5 +64,23 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping(value = "/{FieldCode}")
+    public ResponseEntity<Void> updateNote(@PathVariable ("FieldCode") String fieldCode,
+                                           @RequestBody FieldDto updatedFieldDTO){
+        //validations
+        try {
+            if(!RegexProcess.FieldIdMatcher(fieldCode) || updatedFieldDTO == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            fieldService.updateField(fieldCode,updatedFieldDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

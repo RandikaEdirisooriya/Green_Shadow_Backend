@@ -57,5 +57,16 @@ public class FieldServiceImpl implements FieldService {
             fieldDao.deleteById(fieldId);
         }
     }
+    @Override
+    public void updateField(String fieldId, FieldDto fieldDto) {
+        Optional<Field> findField = fieldDao.findById(fieldId);
+        if (!findField.isPresent()) {
+            throw new DataPersistException("Note not found");
+        }else {
+            findField.get().setFieldLocation(fieldDto.getFieldLocation());
+            findField.get().setFieldName(fieldDto.getFieldName());
+            findField.get().setExtent_size(fieldDto.getExtent_size());
+        }
+    }
 
 }
