@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,7 +30,7 @@ public class FieldServiceImpl implements FieldService {
         Field savedfeild =
                 fieldDao.save(modelMapper.toFieldEntity(fieldDto));
         if(savedfeild == null){
-            throw new DataPersistException("Note not saved");
+            throw new DataPersistException("Field not saved");
         }
 
     }
@@ -44,7 +45,16 @@ public class FieldServiceImpl implements FieldService {
             var selectedUser = fieldDao.getReferenceById(fieldId);
             return modelMapper.toNoteDTO(selectedUser);
         }else {
-            return new SelectedErrorStatus(2,"Selected note not found");
+            return new SelectedErrorStatus(2,"Selected Field not found");
+        }
+    }
+    @Override
+    public void deletefield(String fieldId) {
+        Optional<Field> FoundField = fieldDao.findById(fieldId);
+        if (!FoundField.isPresent()) {
+            throw new DataPersistException("Note not found");
+        }else {
+            fieldDao.deleteById(fieldId);
         }
     }
 

@@ -9,4 +9,5 @@ public interface FieldService {
     void SaveField(FieldDto fieldDto);
     List<FieldDto> getAllField();
     FieldStatus getField(String fieldId);
+    void deletefield(String fieldId);
 }
