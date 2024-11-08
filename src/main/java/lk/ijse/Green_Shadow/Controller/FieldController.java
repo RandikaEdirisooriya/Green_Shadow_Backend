@@ -1,9 +1,11 @@
 package lk.ijse.Green_Shadow.Controller;
 
-import lk.ijse.Green_Shadow.Dto.FieldDto;
+import lk.ijse.Green_Shadow.Dto.FieldStatus;
+import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
 import lk.ijse.Green_Shadow.Service.FieldService;
-import lk.ijse.Green_Shadow.Service.Impl.FieldServiceImpl;
+import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,5 +32,12 @@ public class FieldController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(value = "/{FieldCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public FieldStatus getSelectedField(@PathVariable ("FieldCode") String fieldCode){
+        if (!RegexProcess.FieldIdMatcher(fieldCode)) {
+            return new SelectedErrorStatus(1,"Field ID is not valid");
+        }
+        return fieldService.getField(fieldCode);
     }
 }
