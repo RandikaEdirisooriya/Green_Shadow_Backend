@@ -1,6 +1,8 @@
 package lk.ijse.Green_Shadow.util;
 
+import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
+import lk.ijse.Green_Shadow.Entity.Crop;
 import lk.ijse.Green_Shadow.Entity.Field;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,4 +24,12 @@ public class Mapping {
     public FieldDto toNoteDTO(Field field) {
         return modelMapper.map(field, FieldDto.class);
     }
+
+    public Crop toCropEntity(CropDto cropDto) {
+        return modelMapper.map(cropDto, Crop.class);
+    }
+    public CropDto toCropDTO(Crop crop) {
+        return modelMapper.map(crop, CropDto.class);
+    }
+
 }
