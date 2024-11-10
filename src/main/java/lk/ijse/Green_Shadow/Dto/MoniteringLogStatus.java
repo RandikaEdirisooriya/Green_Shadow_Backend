@@ -1,4 +1,6 @@
 package lk.ijse.Green_Shadow.Dto;
 
-public interface MoniteringLogStatus {
+import java.io.Serializable;
+
+public interface MoniteringLogStatus extends Serializable,SuperDTO{
 }

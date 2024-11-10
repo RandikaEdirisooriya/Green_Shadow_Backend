@@ -2,9 +2,11 @@ package lk.ijse.Green_Shadow.util;
 
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
+import lk.ijse.Green_Shadow.Dto.Impl.MoniteringLogDto;
 import lk.ijse.Green_Shadow.Dto.Impl.StaffDto;
 import lk.ijse.Green_Shadow.Entity.Crop;
 import lk.ijse.Green_Shadow.Entity.Field;
+import lk.ijse.Green_Shadow.Entity.MoniteringLog;
 import lk.ijse.Green_Shadow.Entity.Staff;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -44,5 +46,15 @@ public class Mapping {
     }
     public List<StaffDto> asStaffDTOList(List<Staff> staffList) {
         return modelMapper.map(staffList, new TypeToken<List<StaffDto>>() {}.getType());
+    }
+
+    public MoniteringLog toMoniteringLogEntity(MoniteringLogDto logDto) {
+        return modelMapper.map(logDto, MoniteringLog.class);
+    }
+    public List<MoniteringLogDto> asLogsDTOList(List<MoniteringLog> logs) {
+        return modelMapper.map(logs, new TypeToken<List<MoniteringLogDto>>() {}.getType());
+    }
+    public MoniteringLogDto toMoniteringLogDto(MoniteringLog logs) {
+        return modelMapper.map(logs, MoniteringLogDto.class);
     }
 }
