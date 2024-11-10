@@ -2,8 +2,10 @@ package lk.ijse.Green_Shadow.util;
 
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
+import lk.ijse.Green_Shadow.Dto.Impl.StaffDto;
 import lk.ijse.Green_Shadow.Entity.Crop;
 import lk.ijse.Green_Shadow.Entity.Field;
+import lk.ijse.Green_Shadow.Entity.Staff;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,10 @@ public class Mapping {
     public CropDto toCropDTO(Crop crop) {
         return modelMapper.map(crop, CropDto.class);
     }
+    public List<CropDto> asNoteDTOList(List<Crop> crops) {
+        return modelMapper.map(crops, new TypeToken<List<CropDto>>() {}.getType());
+    }
 
+    public Staff toStaffEntity(StaffDto staffDto) {return modelMapper.map(staffDto, Staff.class);
+    }
 }

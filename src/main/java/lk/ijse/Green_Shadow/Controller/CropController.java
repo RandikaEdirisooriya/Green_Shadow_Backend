@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/crop")
 public class CropController {
@@ -38,5 +40,43 @@ public class CropController {
             return new SelectedErrorStatus(1,"Crop ID is not valid");
         }
         return cropService.getCrop(cropId);
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CropDto> getALlCrops(){
+        return cropService.getAllCrops();
+    }
+    @DeleteMapping(value = "/{cropId}")
+    public ResponseEntity<Void> deleteCrop(@PathVariable ("cropId") String cropId){
+        try {
+            if (!RegexProcess.CropIdMatcher(cropId)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            cropService.deleteCrop(cropId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping(value = "/{cropId}")
+    public ResponseEntity<Void> updateNote(@PathVariable ("cropId") String cropId,
+                                           @RequestBody CropDto updatedCropDto){
+        //validations
+        try {
+            if(!RegexProcess.CropIdMatcher(cropId) || updatedCropDto == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            cropService.updateCrop(cropId,updatedCropDto);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

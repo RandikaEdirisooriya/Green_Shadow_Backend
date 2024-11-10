@@ -12,6 +12,9 @@ import lk.ijse.Green_Shadow.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class CropServiceImpl  implements CropService {
@@ -38,4 +41,34 @@ public class CropServiceImpl  implements CropService {
             return new SelectedErrorStatus(2,"Selected note not found");
         }
     }
+    @Override
+    public List<CropDto> getAllCrops() {
+        return noteMapping.asNoteDTOList( cropDao.findAll());
+    }
+
+    @Override
+    public void deleteCrop(String cropId) {
+        Optional<Crop> foundCrop = cropDao.findById(cropId);
+        if (!foundCrop.isPresent()) {
+            throw new DataPersistException("Note not found");
+        }else {
+            cropDao.deleteById(cropId);
+        }
+    }
+
+    @Override
+    public void updateCrop(String CropId, CropDto cropDto) {
+        Optional<Crop> findNote = cropDao.findById(CropId);
+        if (!findNote.isPresent()) {
+            throw new DataPersistException("Note not found");
+        }else {
+            findNote.get().setCategory(cropDto.getCategory());
+            findNote.get().setCropImage(cropDto.getCropImage());
+            findNote.get().setCropSeason(cropDto.getCropSeason());
+            findNote.get().setCommonName(cropDto.getCommonName());
+            findNote.get().setScientificName(cropDto.getScientificName());
+        }
+    }
+
+
 }
