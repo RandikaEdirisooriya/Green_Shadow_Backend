@@ -15,6 +15,9 @@ import lk.ijse.Green_Shadow.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class StaffServiceImpl implements StaffService {
@@ -38,7 +41,20 @@ public class StaffServiceImpl implements StaffService {
             var selectedStaff = staffDao.getReferenceById(staffId);
             return modelMapper.toStaffDTO(selectedStaff);
         }else {
-            return new SelectedErrorStatus(2,"Selected note not found");
+            return new SelectedErrorStatus(2,"Selected Staff not found");
+        }
+    }
+    @Override
+    public List<StaffDto> getAllStaff() {
+        return modelMapper.asStaffDTOList( staffDao.findAll());
+    }
+    @Override
+    public void deleteStaff(String staffId) {
+        Optional<Staff> foundStaff = staffDao.findById(staffId);
+        if (!foundStaff.isPresent()) {
+            throw new DataPersistException("Staff not found");
+        }else {
+            staffDao.deleteById(staffId);
         }
     }
 }
