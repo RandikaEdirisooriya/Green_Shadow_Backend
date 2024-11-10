@@ -26,4 +26,10 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForUserID);
         return regexPattern.matcher(logID).matches();
     }
+
+    public static boolean vehicleIdMatcher(String vehicleId) {
+        String regexForUserID = "^V\\d{3}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        return regexPattern.matcher(vehicleId).matches();
+    }
 }

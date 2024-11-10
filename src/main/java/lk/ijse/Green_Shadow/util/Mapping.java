@@ -1,13 +1,7 @@
 package lk.ijse.Green_Shadow.util;
 
-import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
-import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
-import lk.ijse.Green_Shadow.Dto.Impl.MoniteringLogDto;
-import lk.ijse.Green_Shadow.Dto.Impl.StaffDto;
-import lk.ijse.Green_Shadow.Entity.Crop;
-import lk.ijse.Green_Shadow.Entity.Field;
-import lk.ijse.Green_Shadow.Entity.MoniteringLog;
-import lk.ijse.Green_Shadow.Entity.Staff;
+import lk.ijse.Green_Shadow.Dto.Impl.*;
+import lk.ijse.Green_Shadow.Entity.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +50,16 @@ public class Mapping {
     }
     public MoniteringLogDto toMoniteringLogDto(MoniteringLog logs) {
         return modelMapper.map(logs, MoniteringLogDto.class);
+    }
+    public Vehicle toVehicleEntity(VehicleDto vehicleDto) {
+        return modelMapper.map(vehicleDto, Vehicle.class);
+    }
+
+
+    public VehicleDto toVehicleDTO(Vehicle vehicle) {
+        return modelMapper.map(vehicle, VehicleDto.class);
+    }
+    public List<VehicleDto> asVehicleDTOList(List<Vehicle> vehicles) {
+        return modelMapper.map(vehicles, new TypeToken<List<VehicleDto>>() {}.getType());
     }
 }
