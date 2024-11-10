@@ -5,9 +5,11 @@ import lk.ijse.Green_Shadow.Dao.FieldDao;
 import lk.ijse.Green_Shadow.Dao.StaffDao;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
 import lk.ijse.Green_Shadow.Dto.Impl.StaffDto;
+import lk.ijse.Green_Shadow.Dto.StaffStatus;
 import lk.ijse.Green_Shadow.Entity.Field;
 import lk.ijse.Green_Shadow.Entity.Staff;
 import lk.ijse.Green_Shadow.Service.StaffService;
+import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
 import lk.ijse.Green_Shadow.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +31,14 @@ public class StaffServiceImpl implements StaffService {
             throw new DataPersistException("Staff not saved");
         }
 
+    }
+    @Override
+    public StaffStatus getStaff(String staffId) {
+        if(staffDao.existsById(staffId)){
+            var selectedStaff = staffDao.getReferenceById(staffId);
+            return modelMapper.toStaffDTO(selectedStaff);
+        }else {
+            return new SelectedErrorStatus(2,"Selected note not found");
+        }
     }
 }

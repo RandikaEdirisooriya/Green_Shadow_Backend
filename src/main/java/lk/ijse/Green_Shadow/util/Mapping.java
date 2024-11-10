@@ -39,4 +39,7 @@ public class Mapping {
 
     public Staff toStaffEntity(StaffDto staffDto) {return modelMapper.map(staffDto, Staff.class);
     }
+    public StaffDto toStaffDTO(Staff staff) {
+        return modelMapper.map(staff, StaffDto.class);
+    }
 }

@@ -15,4 +15,9 @@ public class RegexProcess {
     }
 
 
+    public static boolean StaffIdMatcher(String staffId) {
+        String regexForUserID = "^S\\d{3}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        return regexPattern.matcher(staffId).matches();
+    }
 }
