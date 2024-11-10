@@ -68,4 +68,21 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping(value = "/{staffId}")
+    public ResponseEntity<Void> updateNote(@PathVariable ("staffId") String staffId,
+                                           @RequestBody StaffDto updatedStaffDto){
+        try {
+            if(!RegexProcess.StaffIdMatcher(staffId) || updatedStaffDto == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            staffService.updateStaff(staffId,updatedStaffDto);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -57,4 +57,27 @@ public class StaffServiceImpl implements StaffService {
             staffDao.deleteById(staffId);
         }
     }
+    @Override
+    public void updateStaff(String staffId, StaffDto staffDto) {
+        Optional<Staff> findStaff = staffDao.findById(staffId);
+        if (!findStaff.isPresent()) {
+            throw new DataPersistException("Note not found");
+        }else {
+            findStaff.get().setFirstName(staffDto.getFirstName());
+            findStaff.get().setLastName(staffDto.getLastName());
+            findStaff.get().setDesignation(staffDto.getDesignation());
+            findStaff.get().setGender(staffDto.getGender());
+            findStaff.get().setJoinedDate(staffDto.getJoinedDate());
+            findStaff.get().setDOB(staffDto.getDOB());
+            findStaff.get().setAddressOne(staffDto.getAddressOne());
+            findStaff.get().setAddressTwo(staffDto.getAddressTwo());
+            findStaff.get().setAddressThree(staffDto.getAddressThree());
+            findStaff.get().setAddressFour(staffDto.getAddressFour());
+            findStaff.get().setAddressFive(staffDto.getAddressFive());
+            findStaff.get().setContact_No(staffDto.getContact_No());
+            findStaff.get().setEmail(staffDto.getEmail());
+
+
+        }
+    }
 }
