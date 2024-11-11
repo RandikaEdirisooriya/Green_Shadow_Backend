@@ -32,4 +32,9 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForUserID);
         return regexPattern.matcher(vehicleId).matches();
     }
+    public static boolean EquipmentIdMatcher(String equipmentId) {
+        String regexForUserID = "^E\\d{3}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        return regexPattern.matcher(equipmentId).matches();
+    }
 }

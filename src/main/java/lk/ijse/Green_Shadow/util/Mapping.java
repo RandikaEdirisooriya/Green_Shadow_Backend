@@ -62,4 +62,15 @@ public class Mapping {
     public List<VehicleDto> asVehicleDTOList(List<Vehicle> vehicles) {
         return modelMapper.map(vehicles, new TypeToken<List<VehicleDto>>() {}.getType());
     }
+    public Equipment toEquipmentEntity(EquipmentDto equipmentDto) {
+        return modelMapper.map(equipmentDto, Equipment.class);
+    }
+
+
+    public EquipmentDto toEquipmentDTO(Equipment equipment) {
+        return modelMapper.map(equipment, EquipmentDto.class);
+    }
+    public List<EquipmentDto> asEquipmentDTOList(List<Equipment> equipment) {
+        return modelMapper.map(equipment, new TypeToken<List<EquipmentDto>>() {}.getType());
+    }
 }
