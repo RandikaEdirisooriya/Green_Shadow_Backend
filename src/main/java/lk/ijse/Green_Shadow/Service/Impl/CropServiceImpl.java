@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.CropDao;
 import lk.ijse.Green_Shadow.Dto.CropStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
-import lk.ijse.Green_Shadow.Entity.Crop;
+import lk.ijse.Green_Shadow.Entity.Impl.Crop;
 import lk.ijse.Green_Shadow.Service.CropService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;

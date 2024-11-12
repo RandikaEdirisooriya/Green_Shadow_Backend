@@ -1,7 +1,7 @@
 package lk.ijse.Green_Shadow.util;
 
 import lk.ijse.Green_Shadow.Dto.Impl.*;
-import lk.ijse.Green_Shadow.Entity.*;
+import lk.ijse.Green_Shadow.Entity.Impl.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +72,16 @@ public class Mapping {
     }
     public List<EquipmentDto> asEquipmentDTOList(List<Equipment> equipment) {
         return modelMapper.map(equipment, new TypeToken<List<EquipmentDto>>() {}.getType());
+    }
+    public User toUserEntity(UserDto userDto) {
+        return modelMapper.map(userDto, User.class);
+    }
+
+
+    public UserDto toUserDTO(User user) {
+        return modelMapper.map(user, UserDto.class);
+    }
+    public List<UserDto> asUserDTOList(List<User> users) {
+        return modelMapper.map(users, new TypeToken<List<UserDto>>() {}.getType());
     }
 }

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.EquipmentDao;
 import lk.ijse.Green_Shadow.Dto.EquipmentStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.EquipmentDto;
-import lk.ijse.Green_Shadow.Entity.Equipment;
+import lk.ijse.Green_Shadow.Entity.Impl.Equipment;
 import lk.ijse.Green_Shadow.Service.EquipmentService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;

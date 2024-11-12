@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.MoniteringLogDao;
 import lk.ijse.Green_Shadow.Dto.Impl.MoniteringLogDto;
 import lk.ijse.Green_Shadow.Dto.MoniteringLogStatus;
-import lk.ijse.Green_Shadow.Entity.MoniteringLog;
+import lk.ijse.Green_Shadow.Entity.Impl.MoniteringLog;
 import lk.ijse.Green_Shadow.Service.MoniteringLogService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;

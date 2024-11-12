@@ -1,6 +1,6 @@
 package lk.ijse.Green_Shadow.Dao;
 
-import lk.ijse.Green_Shadow.Entity.Field;
+import lk.ijse.Green_Shadow.Entity.Impl.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.FieldDao;
 import lk.ijse.Green_Shadow.Dto.FieldStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
-import lk.ijse.Green_Shadow.Entity.Field;
+import lk.ijse.Green_Shadow.Entity.Impl.Field;
 import lk.ijse.Green_Shadow.Service.FieldService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;

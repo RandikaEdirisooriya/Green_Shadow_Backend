@@ -37,4 +37,10 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForUserID);
         return regexPattern.matcher(equipmentId).matches();
     }
+
+    public static boolean userIdMatcher(String userId) {
+        String regexForUserID = "^U\\d{3}$";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        return regexPattern.matcher(userId).matches();
+    }
 }

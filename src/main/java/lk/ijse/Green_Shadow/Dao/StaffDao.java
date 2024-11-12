@@ -1,7 +1,7 @@
 package lk.ijse.Green_Shadow.Dao;
 
 
-import lk.ijse.Green_Shadow.Entity.Staff;
+import lk.ijse.Green_Shadow.Entity.Impl.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
