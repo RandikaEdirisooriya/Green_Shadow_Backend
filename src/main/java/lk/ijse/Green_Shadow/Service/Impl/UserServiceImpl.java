@@ -8,8 +8,10 @@ import lk.ijse.Green_Shadow.Entity.Impl.User;
 import lk.ijse.Green_Shadow.Service.UserService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.exception.UserNotFoundException;
 import lk.ijse.Green_Shadow.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,10 +69,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-   /* @Override
+    @Override
     public UserDetailsService userDetailsService() {
         return userName ->
                 userDao.findByEmail(userName)
                         .orElseThrow(()-> new UserNotFoundException("User Not Found"));
-    }*/
+    }
 }
