@@ -66,6 +66,8 @@ public class FieldServiceImpl implements FieldService {
             findField.get().setFieldLocation(fieldDto.getFieldLocation());
             findField.get().setFieldName(fieldDto.getFieldName());
             findField.get().setExtent_size(fieldDto.getExtent_size());
+            findField.get().setFieldImageOne(fieldDto.getFieldImageOne());
+            findField.get().setFieldImageTwo(fieldDto.getFieldImageTwo());
         }
     }
 

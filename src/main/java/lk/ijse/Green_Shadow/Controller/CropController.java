@@ -2,16 +2,20 @@ package lk.ijse.Green_Shadow.Controller;
 
 import lk.ijse.Green_Shadow.Dto.CropStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
+import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
 import lk.ijse.Green_Shadow.Service.CropService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -21,10 +25,34 @@ public class CropController {
     @Autowired
     private CropService cropService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveCrop(@RequestBody CropDto cropDto) {
+
+    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") String cropCode,
+                                         @RequestParam("commonName") String commonName,
+                                         @RequestParam("scientificName") String scientificName,
+                                         @RequestParam("cropImage") MultipartFile cropImage,
+                                         @RequestParam("category") String category,
+                                         @RequestParam("cropSeason") String cropSeason,
+                                         @RequestParam("fieldCode") String fieldCode) {
         try {
+            String base64ProPic = "";
+
+                byte [] bytesProPic = cropImage.getBytes();
+                base64ProPic = AppUtil.ImageToBase64(bytesProPic);
+
+                CropDto cropDto = new CropDto();
+                cropDto.setCropCode(cropCode);
+                cropDto.setCommonName(commonName);
+                cropDto.setScientificName(scientificName);
+                cropDto.setCropImage(base64ProPic);
+                cropDto.setCategory(category);
+                cropDto.setCropSeason(cropSeason);
+                cropDto.setFieldCode(fieldCode);
+
+
+
+
             cropService.saveCrop(cropDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){

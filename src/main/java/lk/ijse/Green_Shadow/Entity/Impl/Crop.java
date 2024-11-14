@@ -1,8 +1,6 @@
 package lk.ijse.Green_Shadow.Entity.Impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lk.ijse.Green_Shadow.Entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +13,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "Crop")
 public class Crop implements SuperEntity {
     @Id
-    private String cropCode;          // Unique code for each crop
-    private String commonName;         // Common name of the crop
-    private String scientificName;     // Scientific name of the crop
-    private String  cropImage;          // Image of the crop as a Long text (e.g., URL or base64)
-    private String category;           // Category of the crop (e.g., Cereal)
+    private String cropCode;
+    private String commonName;
+    private String scientificName;
+    @Column(columnDefinition = "LONGTEXT")
+    private String  cropImage;
+    private String category;
     private String cropSeason;
+    @ManyToOne
+    @JoinColumn(name = "fieldCode",nullable = false)
+    private Field field;
 }

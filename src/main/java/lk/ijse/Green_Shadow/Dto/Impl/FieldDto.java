@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +17,8 @@ public class FieldDto implements FieldStatus {
     private String fieldName;
     private Point fieldLocation;
     private Double Extent_size;
+    private String fieldImageOne;
+    private String fieldImageTwo;
+    private List<CropDto> crops;
+
 }

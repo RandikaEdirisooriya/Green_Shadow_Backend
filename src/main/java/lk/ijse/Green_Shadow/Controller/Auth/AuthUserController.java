@@ -1,4 +1,4 @@
-package lk.ijse.Green_Shadow.Controller;
+package lk.ijse.Green_Shadow.Controller.Auth;
 
 
 import lk.ijse.Green_Shadow.Dto.Impl.UserDto;
@@ -39,7 +39,7 @@ public class AuthUserController {
         String base64ProPic = "";
         try {
             byte[] bytesProPic = profilePic.getBytes();
-            base64ProPic = AppUtil.profilePicToBase64(bytesProPic);
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
             //UserId generate
 
             //Build the Object

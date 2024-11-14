@@ -1,4 +1,4 @@
-package lk.ijse.Green_Shadow.Service.Impl;
+package lk.ijse.Green_Shadow.Service.Impl.Auth;
 
 
 import io.jsonwebtoken.Claims;

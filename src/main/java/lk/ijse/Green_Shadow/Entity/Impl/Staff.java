@@ -1,14 +1,16 @@
 package lk.ijse.Green_Shadow.Entity.Impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lk.ijse.Green_Shadow.Entity.Enum.Gender;
+import lk.ijse.Green_Shadow.Entity.Enum.Role;
 import lk.ijse.Green_Shadow.Entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -20,7 +22,10 @@ public class Staff implements SuperEntity {
     private String FirstName;
     private String LastName;
     private String Designation;
-    private String Gender;
+
+    @Enumerated(EnumType.STRING)
+    private Gender Gender;
+
     private Date JoinedDate;
     private Date DOB;
     private String AddressOne;
@@ -30,4 +35,7 @@ public class Staff implements SuperEntity {
     private String AddressFive ;
     private String Contact_No;
     private String Email;
+    @OneToMany(mappedBy = "staff")
+    private List<Vehicle> vehicles;
+    private Role role;
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveUser(
@@ -36,7 +37,7 @@ public class UserController {
         String base64ProPic = "";
         try {
             byte [] bytesProPic = profilePic.getBytes();
-            base64ProPic = AppUtil.profilePicToBase64(bytesProPic);
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
             //UserId generate
 
             //Build the Object
@@ -98,7 +99,7 @@ public class UserController {
         String base64ProPic = "";
         try {
             byte [] bytesProPic = profilePic.getBytes();
-            base64ProPic = AppUtil.profilePicToBase64(bytesProPic);
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
         }catch (Exception e){
             e.printStackTrace();
         }

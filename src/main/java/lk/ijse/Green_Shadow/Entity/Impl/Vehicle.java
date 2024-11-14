@@ -1,8 +1,6 @@
 package lk.ijse.Green_Shadow.Entity.Impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lk.ijse.Green_Shadow.Entity.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +18,7 @@ public class Vehicle implements SuperEntity {
     private String vehicleCategory;
     private String fuelType;
     private String status;
+    @ManyToOne
+    @JoinColumn(name = "StaffId",nullable = false)
+    private Staff staff;
 }
