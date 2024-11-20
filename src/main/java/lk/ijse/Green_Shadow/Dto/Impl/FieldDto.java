@@ -20,5 +20,8 @@ public class FieldDto implements FieldStatus {
     private String fieldImageOne;
     private String fieldImageTwo;
     private List<CropDto> crops;
+    private List<EquipmentDto> equipmentDtos;
+    private List<StaffDto> staffs;
+
 
 }

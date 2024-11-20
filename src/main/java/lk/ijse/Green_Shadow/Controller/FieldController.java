@@ -2,6 +2,7 @@ package lk.ijse.Green_Shadow.Controller;
 
 import lk.ijse.Green_Shadow.Dto.FieldStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
+import lk.ijse.Green_Shadow.Dto.Impl.StaffDto;
 import lk.ijse.Green_Shadow.Service.FieldService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,36 +27,43 @@ public class FieldController {
     @Autowired
     private FieldService fieldService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveField(@RequestParam("fieldCode") String fieldCode,
-                                          @RequestParam("fieldName") String fieldName,
-                                          @RequestParam("fieldLocation[x]") int x,
-                                          @RequestParam("fieldLocation[y]") int y,
-                                          @RequestParam("extent_size") Double extentSize,
-                                          @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
-                                          @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo) {
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> saveField(
+            @RequestParam("fieldCode") String fieldCode,
+            @RequestParam("fieldName") String fieldName,
+            @RequestParam("fieldLocation[x]") int x,
+            @RequestParam("fieldLocation[y]") int y,
+            @RequestParam("extent_size") Double extentSize,
+            @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
+            @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
+            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds) {
         try {
-            // Convert image files to Base64
-            String base64ProPic = AppUtil.ImageToBase64(fieldImageOne.getBytes());
-            String base64ProPic2 = AppUtil.ImageToBase64(fieldImageTwo.getBytes());
+            // Convert image files to Base64 strings
+            String base64ImageOne = AppUtil.ImageToBase64(fieldImageOne.getBytes());
+            String base64ImageTwo = AppUtil.ImageToBase64(fieldImageTwo.getBytes());
 
-            // Create a Point object for field location
-            Point fieldLocation = new Point(x, y);
+            // Prepare StaffDto list
+            List<StaffDto> staffDtos = new ArrayList<>();
+            for (String staffId : fieldStaffIds) {
+                StaffDto staffDto = new StaffDto();
+                staffDto.setStaffId(staffId);
+                staffDtos.add(staffDto);
+            }
 
-            // Create and set the FieldDto object
+            // Create and set FieldDto
             FieldDto fieldDto = new FieldDto();
             fieldDto.setFieldCode(fieldCode);
             fieldDto.setFieldName(fieldName);
-            fieldDto.setFieldLocation(fieldLocation);
+            fieldDto.setFieldLocation(new Point(x, y));
             fieldDto.setExtent_size(extentSize);
-            fieldDto.setFieldImageOne(base64ProPic);
-            fieldDto.setFieldImageTwo(base64ProPic2);
+            fieldDto.setFieldImageOne(base64ImageOne);
+            fieldDto.setFieldImageTwo(base64ImageTwo);
+            fieldDto.setStaffs(staffDtos);
 
-            // Save the field using the service
+            // Save the field
             fieldService.SaveField(fieldDto);
 
-            // Return a success response
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
             e.printStackTrace();

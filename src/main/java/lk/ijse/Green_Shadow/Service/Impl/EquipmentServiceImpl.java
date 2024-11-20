@@ -2,9 +2,11 @@ package lk.ijse.Green_Shadow.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.EquipmentDao;
+import lk.ijse.Green_Shadow.Dao.FieldDao;
 import lk.ijse.Green_Shadow.Dto.EquipmentStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.EquipmentDto;
 import lk.ijse.Green_Shadow.Entity.Impl.Equipment;
+import lk.ijse.Green_Shadow.Entity.Impl.Field;
 import lk.ijse.Green_Shadow.Service.EquipmentService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
@@ -20,54 +22,78 @@ import java.util.Optional;
 public class EquipmentServiceImpl implements EquipmentService {
     @Autowired
     private EquipmentDao equipmentDao;
+
     @Autowired
     private Mapping mapping;
 
+    @Autowired
+    private FieldDao fieldDao;
+
     @Override
     public void saveEquipment(EquipmentDto equipmentDto) {
-        equipmentDto.getEquipmentId();
-        Equipment savedNote =
-                equipmentDao.save(mapping.toEquipmentEntity(equipmentDto));
-        if(savedNote == null){
+        // Validate if the field exists before proceeding
+        Field field = fieldDao.findById(equipmentDto.getFieldCode())
+                .orElseThrow(() -> new DataPersistException("Field not found"));
+
+        // Map the DTO to the Equipment entity
+        Equipment equipment = mapping.toEquipmentEntity(equipmentDto);
+
+        // Set the associated Field object to the Equipment
+        equipment.setFields(field);
+
+        // Save the equipment entity
+        Equipment savedEquipment = equipmentDao.save(equipment);
+
+        if (savedEquipment == null) {
             throw new DataPersistException("Equipment not saved");
         }
     }
 
     @Override
     public List<EquipmentDto> getAllEquipment() {
-        return mapping.asEquipmentDTOList( equipmentDao.findAll());
+        // Get all equipment from the database and map them to DTOs
+        List<Equipment> equipmentList = equipmentDao.findAll();
+        return mapping.asEquipmentDTOList(equipmentList);
     }
 
     @Override
     public EquipmentStatus getEquipment(String equipmentId) {
-        if(equipmentDao.existsById(equipmentId)){
-            var selectedEquipment = equipmentDao.getReferenceById(equipmentId);
-            return mapping.toEquipmentDTO(selectedEquipment);
-        }else {
-            return new SelectedErrorStatus(2,"Selected Equipment not found");
+        // Check if the equipment exists
+        if (equipmentDao.existsById(equipmentId)) {
+            Equipment equipment = equipmentDao.getReferenceById(equipmentId);
+            return mapping.toEquipmentDTO(equipment);
+        } else {
+            return new SelectedErrorStatus(2, "Selected Equipment not found");
         }
     }
 
     @Override
     public void deleteEquipment(String equipmentId) {
+        // Find the equipment by ID, and if not found, throw an exception
         Optional<Equipment> foundEquipment = equipmentDao.findById(equipmentId);
         if (!foundEquipment.isPresent()) {
             throw new DataPersistException("Equipment not found");
-        }else {
-            equipmentDao.deleteById(equipmentId);
         }
+
+        // Delete the equipment from the database
+        equipmentDao.deleteById(equipmentId);
     }
 
     @Override
     public void updateEquipment(String equipmentId, EquipmentDto equipmentDto) {
+        // Find the equipment by ID
         Optional<Equipment> findEquipment = equipmentDao.findById(equipmentId);
         if (!findEquipment.isPresent()) {
             throw new DataPersistException("Equipment not found");
-        }else {
-            findEquipment.get().setName(equipmentDto.getName());
-            findEquipment.get().setType(equipmentDto.getType());
-            findEquipment.get().setStatus(equipmentDto.getStatus());
-
         }
+
+        // Update the equipment's properties
+        Equipment equipment = findEquipment.get();
+        equipment.setName(equipmentDto.getName());
+        equipment.setType(equipmentDto.getType());
+        equipment.setStatus(equipmentDto.getStatus());
+
+        // Save the updated equipment back to the database
+        equipmentDao.save(equipment);
     }
 }

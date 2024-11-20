@@ -19,7 +19,7 @@ public class Mapping {
     public List<FieldDto> asFieldDTOList(List<Field> fieldList) {
         return modelMapper.map(fieldList, new TypeToken<List<FieldDto>>() {}.getType());
     }
-    public FieldDto toNoteDTO(Field field) {
+    public FieldDto toFieldDTO(Field field) {
         return modelMapper.map(field, FieldDto.class);
     }
 

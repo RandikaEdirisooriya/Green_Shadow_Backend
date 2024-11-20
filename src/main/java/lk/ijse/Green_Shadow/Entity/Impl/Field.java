@@ -26,4 +26,15 @@ public class Field implements SuperEntity {
     private String fieldImageTwo;
     @OneToMany(mappedBy = "field")
     private List<Crop> crops;
+
+    @OneToMany(mappedBy = "fields")
+    private List<Equipment> equipments;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(
+            name = "Field_Staff",
+            joinColumns = @JoinColumn(name = "fieldCode"),
+            inverseJoinColumns = @JoinColumn(name = "staffId")
+    )
+    private List<Staff> staffs;
 }

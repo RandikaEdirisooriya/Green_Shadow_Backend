@@ -40,4 +40,6 @@ public class Staff implements SuperEntity {
     private Role role;
     @OneToMany(mappedBy = "staff")
     private List<Equipment> equipment;
+    @ManyToMany(mappedBy = "staffs", fetch = FetchType.EAGER)
+    private List<Field> fields;
 }

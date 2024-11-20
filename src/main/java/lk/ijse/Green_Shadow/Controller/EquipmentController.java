@@ -26,6 +26,7 @@ public class EquipmentController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveEquipment(@RequestBody EquipmentDto equipmentDto) {
         try {
+
             equipmentService.saveEquipment(equipmentDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){

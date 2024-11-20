@@ -32,6 +32,7 @@ public class StaffDto implements StaffStatus {
     private Role role;
     private List<VehicleDto> vehicleDtos;
     private List<EquipmentDto> equipmentDtos;
+    private List<FieldDto> fields;
 
 
 }
