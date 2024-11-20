@@ -18,4 +18,6 @@ public class MoniteringLogDto implements MoniteringLogStatus {
     private String logDetails;
     private String observedImage;
     private List<CropDto> cropDtos;
+    private List<StaffDto> staffDtos;
+    private List<FieldDto> fieldDtos;
 }

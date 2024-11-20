@@ -37,4 +37,7 @@ public class Field implements SuperEntity {
             inverseJoinColumns = @JoinColumn(name = "staffId")
     )
     private List<Staff> staffs;
+    @ManyToOne
+    @JoinColumn(name = "logCode",nullable = false)
+    private MoniteringLog log;
 }

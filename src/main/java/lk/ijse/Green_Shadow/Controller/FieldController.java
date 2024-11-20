@@ -37,7 +37,8 @@ public class FieldController {
             @RequestParam("extent_size") Double extentSize,
             @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
             @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
-            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds) {
+            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds,
+            @RequestParam("logCode") String logCode) {
         try {
             // Convert image files to Base64 strings
             String base64ImageOne = AppUtil.ImageToBase64(fieldImageOne.getBytes());
@@ -60,6 +61,7 @@ public class FieldController {
             fieldDto.setFieldImageOne(base64ImageOne);
             fieldDto.setFieldImageTwo(base64ImageTwo);
             fieldDto.setStaffs(staffDtos);
+            fieldDto.setLogCode(logCode);
 
             // Save the field
             fieldService.SaveField(fieldDto);

@@ -33,6 +33,7 @@ public class StaffDto implements StaffStatus {
     private List<VehicleDto> vehicleDtos;
     private List<EquipmentDto> equipmentDtos;
     private List<FieldDto> fields;
+    private String logCode;
 
 
 }

@@ -42,4 +42,7 @@ public class Staff implements SuperEntity {
     private List<Equipment> equipment;
     @ManyToMany(mappedBy = "staffs", fetch = FetchType.EAGER)
     private List<Field> fields;
+    @ManyToOne
+    @JoinColumn(name = "logCode",nullable = false)
+    private MoniteringLog log;
 }

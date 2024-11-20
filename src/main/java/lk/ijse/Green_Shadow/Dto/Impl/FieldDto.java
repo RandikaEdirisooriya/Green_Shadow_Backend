@@ -22,6 +22,7 @@ public class FieldDto implements FieldStatus {
     private List<CropDto> crops;
     private List<EquipmentDto> equipmentDtos;
     private List<StaffDto> staffs;
+    private String logCode;
 
 
 }

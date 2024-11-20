@@ -23,4 +23,8 @@ public class MoniteringLog implements SuperEntity {
     private String observedImage;
     @OneToMany(mappedBy = "log")
     private List<Crop> crops;
+    @OneToMany(mappedBy = "log")
+    private List<Staff> staff;
+    @OneToMany(mappedBy = "log")
+    private List<Field> fields;
 }
