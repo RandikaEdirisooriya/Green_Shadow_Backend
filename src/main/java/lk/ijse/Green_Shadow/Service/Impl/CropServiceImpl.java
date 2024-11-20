@@ -25,6 +25,7 @@ public class CropServiceImpl  implements CropService {
 
     @Override
     public void saveCrop(CropDto cropDto) {
+
         cropDto.getCropCode();
         Crop savedCrop =
                 cropDao.save(noteMapping.toCropEntity(cropDto));

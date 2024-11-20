@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -15,4 +17,5 @@ public class MoniteringLogDto implements MoniteringLogStatus {
     private Date logDate;
     private String logDetails;
     private String observedImage;
+    private List<CropDto> cropDtos;
 }

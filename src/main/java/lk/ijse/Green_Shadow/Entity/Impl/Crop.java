@@ -23,4 +23,7 @@ public class Crop implements SuperEntity {
     @ManyToOne
     @JoinColumn(name = "fieldCode",nullable = false)
     private Field field;
+    @ManyToOne
+    @JoinColumn(name = "logCode",nullable = false)
+    private MoniteringLog log;
 }

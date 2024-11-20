@@ -34,7 +34,8 @@ public class CropController {
                                          @RequestParam("cropImage") MultipartFile cropImage,
                                          @RequestParam("category") String category,
                                          @RequestParam("cropSeason") String cropSeason,
-                                         @RequestParam("fieldCode") String fieldCode) {
+                                         @RequestParam("fieldCode") String fieldCode ,
+                                         @RequestParam("logCode") String logCode) {
         try {
             String base64ProPic = "";
 
@@ -49,7 +50,7 @@ public class CropController {
                 cropDto.setCategory(category);
                 cropDto.setCropSeason(cropSeason);
                 cropDto.setFieldCode(fieldCode);
-
+                cropDto.setLogCode(logCode);
 
 
 

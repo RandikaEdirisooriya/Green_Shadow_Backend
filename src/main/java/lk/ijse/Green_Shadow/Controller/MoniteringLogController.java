@@ -1,17 +1,22 @@
 package lk.ijse.Green_Shadow.Controller;
 
+import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Dto.Impl.MoniteringLogDto;
 import lk.ijse.Green_Shadow.Dto.MoniteringLogStatus;
 import lk.ijse.Green_Shadow.Service.MoniteringLogService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,11 +25,36 @@ public class MoniteringLogController {
     @Autowired
     private MoniteringLogService moniteringLogService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveLogs(@RequestBody MoniteringLogDto logDto) {
+    public ResponseEntity<Void> saveLogs( @RequestParam("logCode") String logCode,
+                                          @RequestParam("logDate") String logDate,
+                                          @RequestParam("logDetails") String logDetails,
+                                          @RequestParam("observedImage") MultipartFile observedImage ) {
         try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date logDate1 = dateFormat.parse(logDate); // Converts to Date
+            String base64ProPic = "";
+
+            byte [] bytesProPic = observedImage.getBytes();
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
+
+            System.out.println(base64ProPic);
+            System.out.println(logDate1);
+            System.out.println(logCode);
+            System.out.println(logDetails);
+
+            MoniteringLogDto logDto = new MoniteringLogDto();
+            logDto.setLogCode(logCode);
+            logDto.setLogDate(logDate1);
+            logDto.setLogDetails(logDetails);
+            logDto.setObservedImage(base64ProPic);
+
+
+
+
             moniteringLogService.saveLogs(logDto);
+
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
