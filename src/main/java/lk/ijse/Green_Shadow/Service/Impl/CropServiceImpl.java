@@ -2,9 +2,11 @@ package lk.ijse.Green_Shadow.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.Green_Shadow.Dao.CropDao;
+import lk.ijse.Green_Shadow.Dao.FieldDao;
 import lk.ijse.Green_Shadow.Dto.CropStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Entity.Impl.Crop;
+import lk.ijse.Green_Shadow.Entity.Impl.Field;
 import lk.ijse.Green_Shadow.Service.CropService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class CropServiceImpl  implements CropService {
     @Autowired
     private CropDao cropDao;
+    @Autowired
+    private FieldDao fieldDao;
     @Autowired
     private Mapping noteMapping;
 
@@ -68,6 +72,8 @@ public class CropServiceImpl  implements CropService {
             findNote.get().setCropSeason(cropDto.getCropSeason());
             findNote.get().setCommonName(cropDto.getCommonName());
             findNote.get().setScientificName(cropDto.getScientificName());
+
+
         }
     }
 

@@ -3,6 +3,7 @@ package lk.ijse.Green_Shadow.Controller;
 import lk.ijse.Green_Shadow.Dto.CropStatus;
 import lk.ijse.Green_Shadow.Dto.Impl.CropDto;
 import lk.ijse.Green_Shadow.Dto.Impl.FieldDto;
+import lk.ijse.Green_Shadow.Dto.Impl.MoniteringLogDto;
 import lk.ijse.Green_Shadow.Service.CropService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
@@ -93,13 +94,28 @@ public class CropController {
     }
     @PutMapping(value = "/{cropId}")
     public ResponseEntity<Void> updateNote(@PathVariable ("cropId") String cropId,
-                                           @RequestBody CropDto updatedCropDto){
+                                           @RequestParam("commonName") String commonName,
+                                           @RequestParam("scientificName") String scientificName,
+                                           @RequestParam("cropImage") MultipartFile cropImage,
+                                           @RequestParam("category") String category,
+                                           @RequestParam("cropSeason") String cropSeason){
         //validations
         try {
-            if(!RegexProcess.CropIdMatcher(cropId) || updatedCropDto == null){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            cropService.updateCrop(cropId,updatedCropDto);
+            String base64ProPic = "";
+
+            byte[] bytesProPic = cropImage.getBytes();
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
+
+
+            CropDto cropDto = new CropDto();
+            cropDto.setCropCode(cropId);
+            cropDto.setCommonName(commonName);
+            cropDto.setScientificName(scientificName);
+            cropDto.setCropImage(base64ProPic);
+            cropDto.setCategory(category);
+            cropDto.setCropSeason(cropSeason);
+
+            cropService.updateCrop(cropId,cropDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
             e.printStackTrace();

@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/v1/field")
-@CrossOrigin
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class FieldController {
 
     @Autowired
@@ -106,13 +106,41 @@ public class FieldController {
         }
     }
 
-    @PutMapping(value = "/{FieldCode}")
+    @PutMapping(value = "/{FieldCode}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateField(@PathVariable("FieldCode") String fieldCode,
-                                            @RequestBody FieldDto updatedFieldDTO) {
+
+                                            @RequestParam("fieldName") String fieldName,
+                                            @RequestParam("fieldLocation[x]") int x,
+                                            @RequestParam("fieldLocation[y]") int y,
+                                            @RequestParam("extent_size") Double extentSize,
+                                            @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
+                                            @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
+                                            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds,
+                                            @RequestParam("logCode") String logCode) {
         try {
-            if (!RegexProcess.FieldIdMatcher(fieldCode) || updatedFieldDTO == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // Convert image files to Base64 strings
+            String base64ImageOne = AppUtil.ImageToBase64(fieldImageOne.getBytes());
+            String base64ImageTwo = AppUtil.ImageToBase64(fieldImageTwo.getBytes());
+
+            // Prepare StaffDto list
+            List<StaffDto> staffDtos = new ArrayList<>();
+            for (String staffId : fieldStaffIds) {
+                StaffDto staffDto = new StaffDto();
+                staffDto.setStaffId(staffId);
+                staffDtos.add(staffDto);
             }
+
+            // Create and set FieldDto
+            FieldDto updatedFieldDTO = new FieldDto();
+            updatedFieldDTO.setFieldCode(fieldCode);
+            updatedFieldDTO.setFieldName(fieldName);
+            updatedFieldDTO.setFieldLocation(new Point(x, y));
+            updatedFieldDTO.setExtent_size(extentSize);
+            updatedFieldDTO.setFieldImageOne(base64ImageOne);
+            updatedFieldDTO.setFieldImageTwo(base64ImageTwo);
+            updatedFieldDTO.setStaffs(staffDtos);
+            updatedFieldDTO.setLogCode(logCode);
             fieldService.updateField(fieldCode, updatedFieldDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataPersistException e) {

@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/logs")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class MoniteringLogController {
     @Autowired
     private MoniteringLogService moniteringLogService;
@@ -32,21 +33,17 @@ public class MoniteringLogController {
                                           @RequestParam("logDetails") String logDetails,
                                           @RequestParam("observedImage") MultipartFile observedImage ) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date logDate1 = dateFormat.parse(logDate); // Converts to Date
+
             String base64ProPic = "";
 
             byte [] bytesProPic = observedImage.getBytes();
             base64ProPic = AppUtil.ImageToBase64(bytesProPic);
 
-            System.out.println(base64ProPic);
-            System.out.println(logDate1);
-            System.out.println(logCode);
-            System.out.println(logDetails);
+
 
             MoniteringLogDto logDto = new MoniteringLogDto();
             logDto.setLogCode(logCode);
-            logDto.setLogDate(logDate1);
+            logDto.setLogDate(logDate);
             logDto.setLogDetails(logDetails);
             logDto.setObservedImage(base64ProPic);
 
@@ -92,20 +89,34 @@ public class MoniteringLogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value = "/{logID}")
+    @PutMapping(value = "/{logID}" ,consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updatedLogs(@PathVariable ("logID") String logID,
-                                           @RequestBody MoniteringLogDto updatedLogsDTO){
-        //validations
+
+                                            @RequestParam("logDate") String logDate,
+                                            @RequestParam("logDetails") String logDetails,
+                                            @RequestParam("observedImage") MultipartFile observedImage ) {
+
         try {
-            if(!RegexProcess.LogsIdMatcher(logID) || updatedLogsDTO == null){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            moniteringLogService.updatedLogs(logID,updatedLogsDTO);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (DataPersistException e){
+            String base64ProPic = "";
+
+            byte[] bytesProPic = observedImage.getBytes();
+            base64ProPic = AppUtil.ImageToBase64(bytesProPic);
+
+
+            MoniteringLogDto logDto = new MoniteringLogDto();
+            logDto.setLogCode(logID);
+            logDto.setLogDate(logDate);
+            logDto.setLogDetails(logDetails);
+            logDto.setObservedImage(base64ProPic);
+
+            //Build the Object
+            moniteringLogService.updatedLogs(logID, logDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

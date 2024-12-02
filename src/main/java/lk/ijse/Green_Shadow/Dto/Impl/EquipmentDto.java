@@ -14,6 +14,6 @@ public class EquipmentDto implements EquipmentStatus {
     private String type;
     private String status;
     private String StaffId;
-    private String FieldCode;
+    private String fieldCode;
 
 }
