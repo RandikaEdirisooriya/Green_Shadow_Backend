@@ -17,7 +17,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Field")
-@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "fieldCode")
 public class Field implements SuperEntity {
     @Id
     private String fieldCode;
@@ -37,13 +36,12 @@ public class Field implements SuperEntity {
     @JsonManagedReference  // Serialize the equipments in the field
     private List<Equipment> equipments;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "Field_Staff",
             joinColumns = @JoinColumn(name = "fieldCode"),
             inverseJoinColumns = @JoinColumn(name = "staffId")
-    )
-    @JsonBackReference  // Prevent infinite recursion on the field->staff relationship
+    )// Prevent infinite recursion on the field->staff relationship
     private List<Staff> staffs;
 
     @ManyToOne

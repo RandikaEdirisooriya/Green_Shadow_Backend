@@ -58,7 +58,9 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public List<FieldDto> getAllField() {
         // Map all Field entities to FieldDto
-        return modelMapper.asFieldDTOList(fieldDao.findAll());
+        List<FieldDto> fieldDTOList = modelMapper.asFieldDTOList(fieldDao.findAll());
+        System.out.println(fieldDTOList);
+        return fieldDTOList;
     }
 
     @Override

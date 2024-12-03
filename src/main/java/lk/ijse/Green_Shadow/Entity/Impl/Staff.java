@@ -20,7 +20,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Staff")
-@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "StaffId")
 
 public class Staff implements SuperEntity {
     @Id
@@ -52,8 +51,8 @@ public class Staff implements SuperEntity {
     @JsonManagedReference  // Serialize the equipment for the staff
     private List<Equipment> equipment;
 
-    @ManyToMany(mappedBy = "staffs", cascade = {CascadeType.PERSIST, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JsonManagedReference  // Serialize the fields for the staff
+    @ManyToMany(mappedBy = "staffs", cascade = {CascadeType.PERSIST})
+      // Serialize the fields for the staff
     private List<Field> fields;
 
     @ManyToOne
