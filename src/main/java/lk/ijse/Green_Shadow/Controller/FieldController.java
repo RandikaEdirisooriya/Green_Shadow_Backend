@@ -37,7 +37,6 @@ public class FieldController {
             @RequestParam("extent_size") Double extentSize,
             @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
             @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
-            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds,
             @RequestParam("logCode") String logCode) {
         try {
             // Convert image files to Base64 strings
@@ -45,12 +44,7 @@ public class FieldController {
             String base64ImageTwo = AppUtil.ImageToBase64(fieldImageTwo.getBytes());
 
             // Prepare StaffDto list
-            List<StaffDto> staffDtos = new ArrayList<>();
-            for (String staffId : fieldStaffIds) {
-                StaffDto staffDto = new StaffDto();
-                staffDto.setStaffId(staffId);
-                staffDtos.add(staffDto);
-            }
+
 
             // Create and set FieldDto
             FieldDto fieldDto = new FieldDto();
@@ -60,7 +54,7 @@ public class FieldController {
             fieldDto.setExtent_size(extentSize);
             fieldDto.setFieldImageOne(base64ImageOne);
             fieldDto.setFieldImageTwo(base64ImageTwo);
-            fieldDto.setStaffs(staffDtos);
+
             fieldDto.setLogCode(logCode);
 
             // Save the field
@@ -116,20 +110,13 @@ public class FieldController {
                                             @RequestParam("extent_size") Double extentSize,
                                             @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
                                             @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
-                                            @RequestParam(value = "Field_Staff", required = false, defaultValue = "") List<String> fieldStaffIds,
                                             @RequestParam("logCode") String logCode) {
         try {
             // Convert image files to Base64 strings
             String base64ImageOne = AppUtil.ImageToBase64(fieldImageOne.getBytes());
             String base64ImageTwo = AppUtil.ImageToBase64(fieldImageTwo.getBytes());
 
-            // Prepare StaffDto list
-            List<StaffDto> staffDtos = new ArrayList<>();
-            for (String staffId : fieldStaffIds) {
-                StaffDto staffDto = new StaffDto();
-                staffDto.setStaffId(staffId);
-                staffDtos.add(staffDto);
-            }
+
 
             // Create and set FieldDto
             FieldDto updatedFieldDTO = new FieldDto();
@@ -139,7 +126,6 @@ public class FieldController {
             updatedFieldDTO.setExtent_size(extentSize);
             updatedFieldDTO.setFieldImageOne(base64ImageOne);
             updatedFieldDTO.setFieldImageTwo(base64ImageTwo);
-            updatedFieldDTO.setStaffs(staffDtos);
             updatedFieldDTO.setLogCode(logCode);
             fieldService.updateField(fieldCode, updatedFieldDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -41,18 +41,23 @@ public class Staff implements SuperEntity {
     private String Contact_No;
     private String Email;
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.REMOVE)
     @JsonManagedReference  // Serialize the vehicles for the staff
     private List<Vehicle> vehicles;
 
     private Role role;
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(mappedBy = "staff",cascade = CascadeType.REMOVE)
     @JsonManagedReference  // Serialize the equipment for the staff
     private List<Equipment> equipment;
 
-    @ManyToMany(mappedBy = "staffs", cascade = {CascadeType.PERSIST})
-      // Serialize the fields for the staff
+    /*@ManyToMany(mappedBy = "staffs", cascade = {CascadeType.PERSIST})*/
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "Field_Staff",
+            joinColumns = @JoinColumn(name = "staffId"),
+            inverseJoinColumns = @JoinColumn(name = "fieldCode")
+    )
     private List<Field> fields;
 
     @ManyToOne

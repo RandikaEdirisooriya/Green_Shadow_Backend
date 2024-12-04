@@ -37,16 +37,23 @@ public class StaffServiceImpl implements StaffService {
     public void SaveStaff(StaffDto staffDto) {
         Staff staff = modelMapper.toStaffEntity(staffDto);
 
-        // Fetch and set associated fields
+
         List<Field> fields = new ArrayList<>();
         if (staffDto.getFields() != null) {
             for (FieldDto fieldDto : staffDto.getFields()) {
                 Field field = fieldDao.findById(fieldDto.getFieldCode())
                         .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldCode()));
                 fields.add(field);
+
+                // Add staff to the field's staff list to maintain bidirectional relationship
+                if (!field.getStaffs().contains(staff)) {
+                    field.getStaffs().add(staff);
+                }
             }
         }
+
         staff.setFields(fields);
+
 
         // Save staff entity
         Staff savedStaff = staffDao.save(staff);
@@ -79,7 +86,6 @@ public class StaffServiceImpl implements StaffService {
             staffDao.deleteById(staffId);
         }
     }
-
     @Override
     public void updateStaff(String staffId, StaffDto staffDto) {
         Optional<Staff> findStaff = staffDao.findById(staffId);
@@ -102,15 +108,20 @@ public class StaffServiceImpl implements StaffService {
             staff.setEmail(staffDto.getEmail());
 
             // Update Many-to-Many Fields
-            List<Field> fields = new ArrayList<>();
+            List<Field> currentFields = staff.getFields(); // Retain existing fields
             if (staffDto.getFields() != null) {
                 for (FieldDto fieldDto : staffDto.getFields()) {
                     Field field = fieldDao.findById(fieldDto.getFieldCode())
                             .orElseThrow(() -> new DataPersistException("Field not found"));
-                    fields.add(field);
+
+                    // Only add the field if it's not already associated with the staff
+                    if (!currentFields.contains(field)) {
+                        currentFields.add(field);
+                    }
                 }
             }
-            staff.setFields(fields);
+            staff.setFields(currentFields); // Update the fields with both old and new
         }
     }
+
 }

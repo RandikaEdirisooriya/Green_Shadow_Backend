@@ -28,20 +28,21 @@ public class Field implements SuperEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String fieldImageTwo;
 
-    @OneToMany(mappedBy = "field")
+    @OneToMany(mappedBy = "field",cascade = CascadeType.REMOVE)
     @JsonManagedReference  // Serialize the crops in the field
     private List<Crop> crops;
 
-    @OneToMany(mappedBy = "fields")
+    @OneToMany(mappedBy = "fields",cascade = CascadeType.REMOVE)
     @JsonManagedReference  // Serialize the equipments in the field
     private List<Equipment> equipments;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+ /*   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "Field_Staff",
             joinColumns = @JoinColumn(name = "fieldCode"),
             inverseJoinColumns = @JoinColumn(name = "staffId")
-    )// Prevent infinite recursion on the field->staff relationship
+    )*/
+ @ManyToMany(mappedBy = "fields", cascade = {CascadeType.MERGE,}, fetch = FetchType.EAGER)
     private List<Staff> staffs;
 
     @ManyToOne

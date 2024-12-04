@@ -26,7 +26,8 @@ public class StaffController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveStaff(@RequestBody StaffDto staffDto) {
         try {
-            staffService.SaveStaff(staffDto);
+
+staffService.SaveStaff(staffDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
             e.printStackTrace();
