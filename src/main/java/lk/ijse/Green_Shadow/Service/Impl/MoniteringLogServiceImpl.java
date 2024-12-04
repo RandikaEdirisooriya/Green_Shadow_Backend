@@ -71,4 +71,18 @@ public class MoniteringLogServiceImpl implements MoniteringLogService {
 
         }
     }
+    @Override
+    public String findLastLogsCode() {
+        return moniteringLogDao.findLastLogCode();
+    }
+
+    @Override
+    public long getCount() {
+        return moniteringLogDao.getCount();
+    }
+    @Override
+    public List<String> getAllIds() {
+        return moniteringLogDao.getAllIds(); // Fetch all crop IDs from DB
+    }
+
 }

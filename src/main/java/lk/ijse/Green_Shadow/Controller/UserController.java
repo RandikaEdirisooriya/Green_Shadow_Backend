@@ -7,6 +7,7 @@ import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
 import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
+import lk.ijse.Green_Shadow.util.ResponseUtill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -112,6 +113,11 @@ public class UserController {
         buildUserDTO.setPassword(password);
         buildUserDTO.setProfilePic(base64ProPic);
         userService.updateUser(userId,buildUserDTO);
+    }
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewUserCode() {
+        String newCode = AppUtil.generateUserCode(userService.findLastUserCode());
+        return new ResponseUtill("Success", "Retrieved New Code", newCode);
     }
 
 }

@@ -6,6 +6,8 @@ import lk.ijse.Green_Shadow.Dto.Impl.EquipmentDto;
 import java.util.List;
 
 public interface EquipmentService {
+    String findLastEquipmentCode();
+
     void saveEquipment(EquipmentDto equipmentDto);
 
 
@@ -19,4 +21,8 @@ public interface EquipmentService {
 
 
     void updateEquipment(String equipmentId, EquipmentDto equipmentDto);
+
+    long getCount();
+
+    List<String> getAllIds();
 }

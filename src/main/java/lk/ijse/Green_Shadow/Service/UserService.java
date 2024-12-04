@@ -13,4 +13,5 @@ public interface UserService {
     void deleteUser(String userId);
     void updateUser(String userId, UserDto userDTO);
     UserDetailsService userDetailsService();
+    String findLastUserCode();
 }

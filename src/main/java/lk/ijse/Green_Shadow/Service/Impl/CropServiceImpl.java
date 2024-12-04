@@ -76,6 +76,18 @@ public class CropServiceImpl  implements CropService {
 
         }
     }
+    @Override
+    public String findLastCropCode() {
+        return cropDao.findLastCropCode();
+    }
 
+    @Override
+    public List<String> getAllCropIds() {
+        return cropDao.getAllCropIds(); // Fetch all crop IDs from DB
+    }
 
+    @Override
+    public long getCropCount() {
+        return cropDao.getCropCount();
+    }
 }

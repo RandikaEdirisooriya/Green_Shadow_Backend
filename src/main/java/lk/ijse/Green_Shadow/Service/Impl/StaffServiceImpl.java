@@ -123,5 +123,18 @@ public class StaffServiceImpl implements StaffService {
             staff.setFields(currentFields); // Update the fields with both old and new
         }
     }
+    @Override
+    public String findLastStaffCode() {
+        return staffDao.findLastStaffCode();
+    }
+
+    @Override
+    public long getCount() {
+        return staffDao.getCount();
+    }
+    @Override
+    public List<String> getAllIds() {
+        return staffDao.getAllIds(); // Fetch all crop IDs from DB
+    }
 
 }

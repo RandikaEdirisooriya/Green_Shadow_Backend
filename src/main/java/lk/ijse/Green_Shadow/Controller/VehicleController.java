@@ -5,7 +5,9 @@ import lk.ijse.Green_Shadow.Dto.VehicleStatus;
 import lk.ijse.Green_Shadow.Service.VehicleService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
+import lk.ijse.Green_Shadow.util.ResponseUtill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -79,5 +81,20 @@ public class VehicleController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewUserCode() {
+        String newCode = AppUtil.generatedVehicleCode(vehicleService.findLastVehicleCode());
+        return new ResponseUtill("Success", "Retrieved New Code", newCode);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        long Count = vehicleService.getCount();
+        return new ResponseEntity<>(Count, HttpStatus.OK);
+    }
+    @GetMapping("/ids")
+    public ResponseEntity<List<String>> getAllIds() {
+        List<String> Ids = vehicleService.getAllIds();
+        return new ResponseEntity<>(Ids, HttpStatus.OK);
     }
 }

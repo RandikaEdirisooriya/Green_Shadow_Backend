@@ -28,23 +28,23 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleDto.getVehicleCode();
         Vehicle savedVehicle =
                 vehicleDao.save(vehicleMapping.toVehicleEntity(vehicleDto));
-        if(savedVehicle == null){
+        if (savedVehicle == null) {
             throw new DataPersistException("Vehicle not saved");
         }
     }
 
     @Override
     public List<VehicleDto> getAllVehicles() {
-        return vehicleMapping.asVehicleDTOList( vehicleDao.findAll());
+        return vehicleMapping.asVehicleDTOList(vehicleDao.findAll());
     }
 
     @Override
     public VehicleStatus getVehicle(String vehicleId) {
-        if(vehicleDao.existsById(vehicleId)){
+        if (vehicleDao.existsById(vehicleId)) {
             var selectedVehicle = vehicleDao.getReferenceById(vehicleId);
             return vehicleMapping.toVehicleDTO(selectedVehicle);
-        }else {
-            return new SelectedErrorStatus(2,"Selected Vehicle not found");
+        } else {
+            return new SelectedErrorStatus(2, "Selected Vehicle not found");
         }
     }
 
@@ -53,7 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
         Optional<Vehicle> foundVehicle = vehicleDao.findById(vehicleId);
         if (!foundVehicle.isPresent()) {
             throw new DataPersistException("Vehicle not found");
-        }else {
+        } else {
             vehicleDao.deleteById(vehicleId);
         }
     }
@@ -63,7 +63,7 @@ public class VehicleServiceImpl implements VehicleService {
         Optional<Vehicle> foundVehicle = vehicleDao.findById(vehicleId);
         if (!foundVehicle.isPresent()) {
             throw new DataPersistException("Vehicle not found");
-        }else {
+        } else {
 
             foundVehicle.get().setLicensePlateNumber(vehicleDto.getLicensePlateNumber());
             foundVehicle.get().setVehicleCategory(vehicleDto.getVehicleCategory());
@@ -73,4 +73,19 @@ public class VehicleServiceImpl implements VehicleService {
 
         }
     }
+
+    @Override
+    public String findLastVehicleCode() {
+        return vehicleDao.findLastCode();
+    }
+
+    @Override
+    public long getCount() {
+        return vehicleDao.getCount();
+    }
+    @Override
+    public List<String> getAllIds() {
+        return vehicleDao.getAllIds(); // Fetch all crop IDs from DB
+    }
+
 }

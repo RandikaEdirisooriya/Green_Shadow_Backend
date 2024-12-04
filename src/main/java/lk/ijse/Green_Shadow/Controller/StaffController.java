@@ -6,7 +6,9 @@ import lk.ijse.Green_Shadow.Dto.StaffStatus;
 import lk.ijse.Green_Shadow.Service.StaffService;
 import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
+import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
+import lk.ijse.Green_Shadow.util.ResponseUtill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -83,5 +85,20 @@ staffService.SaveStaff(staffDto);
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewStaffCode() {
+        String newCode = AppUtil.generateStaffCode(staffService.findLastStaffCode());
+        return new ResponseUtill("Success", "Retrieved New Code", newCode);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        long Count = staffService.getCount();
+        return new ResponseEntity<>(Count, HttpStatus.OK);
+    }
+    @GetMapping("/ids")
+    public ResponseEntity<List<String>> getAllIds() {
+        List<String> Ids = staffService.getAllIds();
+        return new ResponseEntity<>(Ids, HttpStatus.OK);
     }
 }

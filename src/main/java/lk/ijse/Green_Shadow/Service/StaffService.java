@@ -5,10 +5,20 @@ import lk.ijse.Green_Shadow.Dto.StaffStatus;
 
 import java.util.List;
 
-public interface  StaffService {
+public interface StaffService {
     void SaveStaff(StaffDto staffDto);
+
     StaffStatus getStaff(String staffId);
+
     List<StaffDto> getAllStaff();
+
     void deleteStaff(String staffId);
+
     void updateStaff(String staffId, StaffDto staffDto);
+
+    String findLastStaffCode();
+
+    long getCount();
+
+    List<String> getAllIds();
 }

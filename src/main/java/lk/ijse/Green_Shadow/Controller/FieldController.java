@@ -8,6 +8,7 @@ import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
 import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
+import lk.ijse.Green_Shadow.util.ResponseUtill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -136,5 +137,20 @@ public class FieldController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewFieldCode() {
+        String newCode = AppUtil.generateFieldCode(fieldService.findLastFieldCode());
+        return new ResponseUtill("Success", "Retrieved New Code", newCode);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount() {
+        long Count = fieldService.getCount();
+        return new ResponseEntity<>(Count, HttpStatus.OK);
+    }
+    @GetMapping("/ids")
+    public ResponseEntity<List<String>> getAllIds() {
+        List<String> Ids = fieldService.getAllIds();
+        return new ResponseEntity<>(Ids, HttpStatus.OK);
     }
 }

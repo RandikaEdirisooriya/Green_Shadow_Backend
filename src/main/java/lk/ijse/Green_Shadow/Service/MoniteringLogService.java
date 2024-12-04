@@ -16,4 +16,9 @@ public interface MoniteringLogService {
 
     void updatedLogs(String logId, MoniteringLogDto logDto);
 
+    String findLastLogsCode();
+
+    long getCount();
+
+    List<String> getAllIds();
 }

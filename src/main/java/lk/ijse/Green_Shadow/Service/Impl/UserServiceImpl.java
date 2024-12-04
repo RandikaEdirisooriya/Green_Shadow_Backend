@@ -75,4 +75,9 @@ public class UserServiceImpl implements UserService {
                 userDao.findByEmail(userName)
                         .orElseThrow(()-> new UserNotFoundException("User Not Found"));
     }
+    @Override
+    public String findLastUserCode() {
+        return userDao.findLastCode();
+    }
+
 }

@@ -9,6 +9,7 @@ import lk.ijse.Green_Shadow.exception.DataPersistException;
 import lk.ijse.Green_Shadow.secure.JWTAuthResponse;
 import lk.ijse.Green_Shadow.secure.SignIn;
 import lk.ijse.Green_Shadow.util.AppUtil;
+import lk.ijse.Green_Shadow.util.ResponseUtill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -69,6 +70,10 @@ public class AuthUserController {
     public ResponseEntity<JWTAuthResponse> refreshToken(@RequestParam ("existingToken") String existingToken) {
         return ResponseEntity.ok(authService.refreshToken(existingToken));
     }
-
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewUserCode() {
+        String newCode = AppUtil.generateUserCode(userService.findLastUserCode());
+        return new ResponseUtill("Success", "Retrieved New Code", newCode);
+    }
 
 }

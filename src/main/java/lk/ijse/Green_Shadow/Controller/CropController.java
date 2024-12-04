@@ -9,6 +9,9 @@ import lk.ijse.Green_Shadow.customStatusCodes.SelectedErrorStatus;
 import lk.ijse.Green_Shadow.exception.DataPersistException;
 import lk.ijse.Green_Shadow.util.AppUtil;
 import lk.ijse.Green_Shadow.util.RegexProcess;
+
+import lk.ijse.Green_Shadow.util.ResponseUtill;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -124,5 +127,22 @@ public class CropController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/nextcode")
+    public ResponseUtill getNewCropCode() {
+        String newCropCode = AppUtil.generateCropCode(cropService.findLastCropCode());
+        return new ResponseUtill("Success", "Retrieved New Crop Code", newCropCode);
+    }
+    @GetMapping("/ids")
+    public ResponseEntity<List<String>> getAllIds() {
+        List<String> cropIds = cropService.getAllCropIds();
+        return new ResponseEntity<>(cropIds, HttpStatus.OK);
+    }
+
+    // Endpoint to get the total count of crops
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCropCount() {
+        long cropCount = cropService.getCropCount();
+        return new ResponseEntity<>(cropCount, HttpStatus.OK);
     }
 }

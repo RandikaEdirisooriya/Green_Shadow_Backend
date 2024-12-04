@@ -15,4 +15,10 @@ public interface VehicleService {
     void deleteVehicle(String vehicleId);
 
     void updateVehicle(String vehicleId, VehicleDto vehicleDto);
+
+    String findLastVehicleCode();
+
+    long getCount();
+
+    List<String> getAllIds();
 }

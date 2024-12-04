@@ -96,4 +96,18 @@ public class EquipmentServiceImpl implements EquipmentService {
         // Save the updated equipment back to the database
         equipmentDao.save(equipment);
     }
+    @Override
+    public String findLastEquipmentCode() {
+        return equipmentDao.findLastEquipmentCode();
+    }
+    @Override
+    public long getCount() {
+        return equipmentDao.getCount();
+    }
+
+    @Override
+    public List<String> getAllIds() {
+        return equipmentDao.getAllIds(); // Fetch all crop IDs from DB
+    }
+
 }

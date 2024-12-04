@@ -114,4 +114,20 @@ public class FieldServiceImpl implements FieldService {
             fieldDao.save(field);
         }
     }
+
+    @Override
+    public String findLastFieldCode() {
+        return fieldDao.findLastFieldCode();
+    }
+
+    @Override
+    public long getCount() {
+        return fieldDao.getCount();
+    }
+
+    @Override
+    public List<String> getAllIds() {
+        return fieldDao.getAllIds(); // Fetch all crop IDs from DB
+    }
+
 }
