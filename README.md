@@ -147,6 +147,10 @@ To run the backend locally, follow these steps:
 
 ---
 
-1. Clone the repository:
+1. Clone the Backend repository:
    ```bash
    git clone https://github.com/RandikaEdirisooriya/greenshadow-backend.git
+
+1. Clone the Frontend repository:
+   ```bash
+   https://github.com/RandikaEdirisooriya/Green_Shadow_Frontend
